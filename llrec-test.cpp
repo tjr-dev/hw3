@@ -87,7 +87,13 @@ int main(int argc, char* argv[])
 
     // Test out your linked list code
 
+    head = llfilter(head, [](int value) {
+        return value % 2 != 0;
+    });
 
+    cout << "Filtered list: ";
+    print(head);
+    dealloc(head);
 
     
     return 0;
