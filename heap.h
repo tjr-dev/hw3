@@ -154,38 +154,40 @@ void Heap<T,PComparator>::pop()
     throw std::underflow_error("error - pop called on empty heap");
   }
 
-  std::swap(data.at(0), data.at(data.size()-1));
+  // removing top element and putting the one at the back at the front.
+  std::swap(data.at(0), data.at(data.size()-1)); 
   data.pop_back();
 
-  size_t i = 0;
+  size_t i = 0; // starting at 0
 
 
   while (((d*i +1) < data.size()) ) { // condition should be while at least 1 child exists
 
-    size_t index = (d*i + 1);
-    T bestNode = data.at(index);
+    size_t index = (d*i + 1); // index = first child of parent
+    T bestNode = data.at(index); // value of first child of parent
 
     size_t numChildren; // should go to "d / remaining children", which one is smaller
     // d children when it is full - otherwise it should be data.size()-index children
     // full when data.size() > d*i + d
-    if (data.size() > (d*i + d)) {
+    if (data.size() > (d*i + d)) { // if has all children, num children = d
       numChildren = d;
     } else {
-      numChildren = data.size() - index;
+      numChildren = data.size() - index; // else sets num children to the difference between data size and the first childs pos
     }
     
-    for (size_t j = 1; j < numChildren; j++) { 
-      if (comp((data.at(d*i + 1 + j)), bestNode)) {
-        bestNode = data.at(d*i + 1 + j);
+    for (size_t j = 1; j < numChildren; j++) {  // iterating through each child.
+      if (comp((data.at(d*i + 1 + j)), bestNode)) { // compares Nth child w first child
+        bestNode = data.at(d*i + 1 + j); // if better than sets it
         index = (d*i + 1 +j);
-      }
+      } // else nothing changes
     }
-    if (comp(data.at(index), data.at(i))) {
+    // now we know the bestnode and its index for a parent.
+    if (comp(data.at(index), data.at(i))) { // if the child node is better than the parent swap it
       std::swap(data.at(i), data.at(index));
     } else {
-      break;
+      break; // if child is not better this means the tree is done so break.
     }
-    i = index;
+    i = index; // updates curr node to the child node.
   }
 }
 
