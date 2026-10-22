@@ -1,24 +1,19 @@
 #include "llrec.h"
 
-//*********************************************
-// Provide your implementation of llpivot below
-//*********************************************
-
-
 void llpivot (Node*& head, Node*& smaller, Node*& larger, int pivot) {
-    if (head != nullptr) { // if head isnt a null ptr
-        llpivot(head->next, smaller, larger, pivot); // runs pivot on head->next.
-        if (head->val <= pivot) { // if less than or equal to
-            head->next = smaller; // first values next ptr points to smaller start
-            smaller = head; // smaller now points to the new first value
-            // sets 
+    if (head != nullptr) {
+        llpivot(head->next, smaller, larger, pivot);
+        if (head->val <= pivot) {
+            head->next = smaller;
+            smaller = head;
+
         } else {
-            head->next = larger; // first values next ptr points to larger start
-            larger=head; // larger now points to new the new first value
+            head->next = larger;
+            larger=head;
         }
-    } else { // if head is empty, initialised smaller and larger as null
+    } else {
         smaller = nullptr; larger = nullptr;
     }
-    head = nullptr; // sets head as nullptr so no memory leak
+    head = nullptr;
     return;
 }
